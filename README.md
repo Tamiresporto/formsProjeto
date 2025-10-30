@@ -229,28 +229,6 @@ Problema: JavaScript não carrega
 Solução: Verificar se script.js está no mesmo diretório
 ```
 
-## 📈 Melhorias Futuras
-
-- [ ] **Backend Integration:** Integração com servidor
-- [ ] **Database:** Armazenamento de dados
-- [ ] **Authentication:** Sistema de login
-- [ ] **PWA:** Progressive Web App
-- [ ] **Offline Mode:** Funcionamento offline
-- [ ] **Multiple CEPs:** Busca de múltiplos CEPs
-- [ ] **Geolocation:** Localização automática
-- [ ] **Maps Integration:** Integração com mapas
-
-## 👨‍💻 Contribuição
-
-Para contribuir com o projeto:
-
-1. **Fork** o repositório
-2. **Clone** sua fork
-3. **Crie** uma branch para sua feature
-4. **Commit** suas mudanças
-5. **Push** para a branch
-6. **Abra** um Pull Request
-
 
 ## 📄 Licença
 

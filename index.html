@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de formulário de endereço com consulta automática de CEP via API ViaCEP">
+    <meta name="author" content="Sistema de Consulta CEP">
+    <meta name="keywords" content="CEP, endereço, formulário, ViaCEP, Brasil">
+    
+    <title>Sistema de Consulta CEP - Formulário de Endereço</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iIzAwN2JmZiIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGQ9Ik0yMjQsMTI4YTk2LDk2LDAsMSwxLTk2LTk2QTk2LjExLDk2LjExLDAsMCwxLDIyNCwxMjhaIiBvcGFjaXR5PSIwLjIiLz48cGF0aCBkPSJNMTI4LDI0QTEwNCwxMDQsMCwxLDAsMjMyLDEyOCwxMDQuMTEsMTA0LjExLDAsMCwwLDEyOCwyNFptMCwxOTJhODgsODgsMCwxLDEsODgtODhBODguMSw4OC4xLDAsMCwxLDEyOCwyMTZabTQwLTY4YTEyLDEyLDAsMCwxLTEyLDEySDEwMGExMiwxMiwwLDAsMSwwLTI0aDU2QTEyLDEyLDAsMCwxLDE2OCwxNDhabS0xMi0zMkg5NmExMiwxMiwwLDAsMSwwLTI0aDYwYTEyLDEyLDAsMCwxLDAsMjRaIi8+PC9zdmc+">
+</head>
+<body>
+    <!-- Container Principal -->
+    <div class="container">
+        <div class="main-container">
+            <!-- Cabeçalho -->
+            <header class="header">
+                <h1><i class="fas fa-map-marker-alt"></i> Sistema de Consulta CEP</h1>
+                <p>Preencha o CEP e obtenha automaticamente as informações do endereço</p>
+            </header>
+
+            <!-- Container de Mensagens -->
+            <div id="messageContainer"></div>
+
+            <!-- Formulário Principal -->
+            <main>
+                <form id="addressForm" class="needs-validation" novalidate>
+                    
+                    <!-- Seção: Dados Pessoais -->
+                    <section class="form-section fade-in">
+                        <h3 class="section-title"><i class="fas fa-user"></i> Dados Pessoais</h3>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">
+                                    <i class="fas fa-user"></i> Nome Completo *
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="firstName" 
+                                    name="firstName"
+                                    placeholder="Digite seu nome completo"
+                                    required
+                                    data-bs-toggle="tooltip" 
+                                    data-bs-placement="top" 
+                                    title="Digite seu nome completo"
+                                >
+                                <div class="valid-feedback">
+                                    <i class="fas fa-check"></i> Nome válido!
+                                </div>
+                                <div class="invalid-feedback">
+                                    <i class="fas fa-exclamation-triangle"></i> Por favor, informe seu nome completo.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">
+                                    <i class="fas fa-envelope"></i> E-mail *
+                                </label>
+                                <input 
+                                    type="email" 
+                                    class="form-control" 
+                                    id="email" 
+                                    name="email"
+                                    placeholder="seu@email.com"
+                                    required
+                                    data-bs-toggle="tooltip" 
+                                    data-bs-placement="top" 
+                                    title="Digite um e-mail válido"
+                                >
+                                <div class="valid-feedback">
+                                    <i class="fas fa-check"></i> E-mail válido!
+                                </div>
+                                <div class="invalid-feedback">
+                                    <i class="fas fa-exclamation-triangle"></i> Por favor, informe um e-mail válido.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Seção: Endereço -->
+                    <section class="form-section fade-in">
+                        <h3 class="section-title"><i class="fas fa-home"></i> Informações de Endereço</h3>
+                        
+                        <!-- CEP -->
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="cep" class="form-label">
+                                    <i class="fas fa-search"></i> CEP *
+                                </label>
+                                <div class="cep-group">
+                                    <input 
+                                        type="text" 
+                                        class="form-control cep-input" 
+                                        id="cep" 
+                                        name="cep"
+                                        placeholder="00000-000"
+                                        maxlength="9"
+                                        required
+                                        data-bs-toggle="tooltip" 
+                                        data-bs-placement="top" 
+                                        title="Digite o CEP para busca automática do endereço"
+                                    >
+                                    <div class="cep-loader" id="cepLoader">
+                                        <div class="spinner"></div>
+                                    </div>
+                                </div>
+                                <div class="valid-feedback">
+                                    <i class="fas fa-check"></i> CEP válido!
+                                </div>
+                                <div class="invalid-feedback">
+                                    <i class="fas fa-exclamation-triangle"></i> Digite um CEP válido (8 dígitos).
+                                </div>
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle"></i> Digite o CEP para preenchimento automático
+                                </small>
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <label for="street" class="form-label">
+                                    <i class="fas fa-road"></i> Logradouro (Rua) *
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="street" 
+                                    name="street"
+                                    placeholder="Nome da rua, avenida, etc."
+                                    required
+                                    readonly
+                                >
+                                <div class="valid-feedback">
+                                    <i class="fas fa-check"></i> Logradouro preenchido!
+                                </div>
+                                <div class="invalid-feedback">
+                                    <i class="fas fa-exclamation-triangle"></i> Logradouro é obrigatório.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Endereço Completo -->
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="number" class="form-label">
+                                    <i class="fas fa-hashtag"></i> Número *
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="number" 
+                                    name="number"
+                                    placeholder="123"
+                                    required
+                                >
+                                <div class="valid-feedback">
+                                    <i class="fas fa-check"></i> Número válido!
+                                </div>
+                                <div class="invalid-feedback">
+                                    <i class="fas fa-exclamation-triangle"></i> Número é obrigatório.
+                                </div>
+                            </div>
+                            <div class="col-md-5 mb-3">
+                                <label for="complement" class="form-label">
+                                    <i class="fas fa-plus"></i> Complemento
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="complement" 
+                                    name="complement"
+                                    placeholder="Apto, Bloco, etc. (opcional)"
+                                >
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="neighborhood" class="form-label">
+                                    <i class="fas fa-building"></i> Bairro *
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="neighborhood" 
+                                    name="neighborhood"
+                                    placeholder="Nome do bairro"
+                                    required
+                                    readonly
+                                >
+                                <div class="valid-feedback">
+                                    <i class="fas fa-check"></i> Bairro preenchido!
+                                </div>
+                                <div class="invalid-feedback">
+                                    <i class="fas fa-exclamation-triangle"></i> Bairro é obrigatório.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cidade e Estado -->
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label for="city" class="form-label">
+                                    <i class="fas fa-city"></i> Cidade *
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="city" 
+                                    name="city"
+                                    placeholder="Nome da cidade"
+                                    required
+                                    readonly
+                                >
+                                <div class="valid-feedback">
+                                    <i class="fas fa-check"></i> Cidade preenchida!
+                                </div>
+                                <div class="invalid-feedback">
+                                    <i class="fas fa-exclamation-triangle"></i> Cidade é obrigatória.
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="state" class="form-label">
+                                    <i class="fas fa-flag"></i> Estado (UF) *
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="state" 
+                                    name="state"
+                                    placeholder="UF"
+                                    maxlength="2"
+                                    required
+                                    readonly
+                                >
+                                <div class="valid-feedback">
+                                    <i class="fas fa-check"></i> Estado preenchido!
+                                </div>
+                                <div class="invalid-feedback">
+                                    <i class="fas fa-exclamation-triangle"></i> Estado é obrigatório.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Seção: Termos e Ações -->
+                    <section class="form-section fade-in">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        value="" 
+                                        id="termsCheck" 
+                                        name="terms"
+                                        required
+                                    >
+                                    <label class="form-check-label" for="termsCheck">
+                                        <i class="fas fa-shield-alt"></i> 
+                                        Concordo com os <a href="#" target="_blank">termos e condições</a> e 
+                                        <a href="#" target="_blank">política de privacidade</a> *
+                                    </label>
+                                    <div class="invalid-feedback">
+                                        <i class="fas fa-exclamation-triangle"></i> 
+                                        Você deve concordar com os termos para continuar.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botões de Ação -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-secondary-custom me-md-2" 
+                                        id="clearBtn"
+                                        data-bs-toggle="tooltip" 
+                                        data-bs-placement="top" 
+                                        title="Limpar todos os campos"
+                                    >
+                                        <i class="fas fa-eraser"></i> Limpar Formulário
+                                    </button>
+                                    <button 
+                                        type="submit" 
+                                        class="btn btn-primary-custom"
+                                        data-bs-toggle="tooltip" 
+                                        data-bs-placement="top" 
+                                        title="Enviar formulário"
+                                    >
+                                        <i class="fas fa-paper-plane"></i> Enviar Cadastro
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </form>
+            </main>
+
+            <!-- Rodapé -->
+            <footer class="text-center mt-4">
+                <small class="text-muted">
+                    <i class="fas fa-info-circle"></i> 
+                    Sistema integrado com a API <strong>ViaCEP</strong> para consulta automática de endereços
+                    <br>
+                    <i class="fas fa-calendar"></i> © 2025 - Desenvolvido por Tamires Porto, com as ferramentas HTML5, CSS3, JavaScript e Bootstrap 5
+                </small>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- JavaScript Personalizado -->
+    <script src="script.js"></script>
+</body>
+</html>

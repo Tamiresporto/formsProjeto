@@ -251,12 +251,6 @@ Para contribuir com o projeto:
 5. **Push** para a branch
 6. **Abra** um Pull Request
 
-## 📞 Suporte
-
-Para dúvidas ou problemas:
-- 📧 **Email:** [seu-email@exemplo.com]
-- 🐛 **Issues:** [Link do repositório]
-- 📚 **Docs:** [Link da documentação]
 
 ## 📄 Licença
 
@@ -264,6 +258,6 @@ Este projeto está sob a licença **MIT**. Veja o arquivo `LICENSE` para mais de
 
 ---
 
-**Desenvolvido com ❤️ utilizando HTML5, CSS3, JavaScript e Bootstrap 5**
+**Desenvolvido com ❤️ por Tamires Porto utilizando HTML5, CSS3, JavaScript e Bootstrap 5**
 
 *Última atualização: Outubro 2025*
